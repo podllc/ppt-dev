@@ -1,0 +1,236 @@
+services:
+  # ============================================================================
+  # SHARED INFRASTRUCTURE
+  # ============================================================================
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ppt-sqlserver
+    platform: linux/amd64
+    environment:
+      ACCEPT_EULA: ${ACCEPT_EULA:-Y}
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_PID: ${MSSQL_PID:-Developer}
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    networks:
+      - ppt-internal
+    # healthcheck:
+    #   test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${MSSQL_SA_PASSWORD} -C -Q 'SELECT 1' || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ppt-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - ppt-internal
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # DEVELOPMENT CONTAINERS
+  # ============================================================================
+
+  microservice-epa:
+    container_name: ppt-microservice-epa
+    user: ${CONTAINER_USERNAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dotnet
+      args:
+        USERNAME: ${CONTAINER_USERNAME}
+    volumes:
+      - ../microservice-epa:/workspace:cached
+      - ./.devcache/microservice-epa:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/claude-shared:/home/claude-shared:cached
+      - ./.devcache/gh-shared:/home/gh-shared:cached
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+    ports:
+      - "5100:5000"
+    networks:
+      - ppt-internal
+    depends_on:
+      sqlserver:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    working_dir: /workspace
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  microservice-case-management:
+    container_name: ppt-microservice-case-management
+    user: ${CONTAINER_USERNAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dotnet
+      args:
+        USERNAME: ${CONTAINER_USERNAME}
+    volumes:
+      - ../microservice-case-management:/workspace:cached
+      - ./.devcache/microservice-case-management:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/claude-shared:/home/claude-shared:cached
+      - ./.devcache/gh-shared:/home/gh-shared:cached
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+    ports:
+      - "5200:5000"
+    networks:
+      - ppt-internal
+    depends_on:
+      sqlserver:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    working_dir: /workspace
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  microservice-sam-gateway:
+    container_name: ppt-microservice-sam-gateway
+    user: ${CONTAINER_USERNAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dotnet
+      args:
+        USERNAME: ${CONTAINER_USERNAME}
+    volumes:
+      - ../microservice-sam-gateway:/workspace:cached
+      - ./.devcache/microservice-sam-gateway:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/claude-shared:/home/claude-shared:cached
+      - ./.devcache/gh-shared:/home/gh-shared:cached
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+    ports:
+      - "5300:5000"
+    networks:
+      - ppt-internal
+    depends_on:
+      redis:
+        condition: service_healthy
+    working_dir: /workspace
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  ppt-agentic:
+    container_name: ppt-agentic
+    user: ${CONTAINER_USERNAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dotnet
+      args:
+        USERNAME: ${CONTAINER_USERNAME}
+    volumes:
+      - ../ppt-agentic:/workspace:cached
+      - ./.devcache/ppt-agentic:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/claude-shared:/home/claude-shared:cached
+      - ./.devcache/gh-shared:/home/gh-shared:cached
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+    ports:
+      - "5400:5000"
+    networks:
+      - ppt-internal
+    depends_on:
+      redis:
+        condition: service_healthy
+    working_dir: /workspace
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  ppt-common-csharp:
+    container_name: ppt-common-csharp
+    user: ${CONTAINER_USERNAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dotnet
+      args:
+        USERNAME: ${CONTAINER_USERNAME}
+    volumes:
+      - ../ppt-common-csharp:/workspace:cached
+      - ./.devcache/ppt-common-csharp:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/claude-shared:/home/claude-shared:cached
+      - ./.devcache/gh-shared:/home/gh-shared:cached
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+    ports:
+      - "5500:5000"
+    networks:
+      - ppt-internal
+    working_dir: /workspace
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  ppt-cli:
+    container_name: ppt-cli
+    hostname: ppt-cli
+    user: ${CONTAINER_USERNAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dotnet
+      args:
+        USERNAME: ${CONTAINER_USERNAME}
+    volumes:
+      - .:/workspace:cached
+      - ./.devcache/ppt-cli:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/claude-shared:/home/claude-shared:cached
+      - ./.devcache/gh-shared:/home/gh-shared:cached
+    env_file:
+      - .env
+    ports:
+      - "5600:5000"
+    networks:
+      - ppt-internal
+    depends_on:
+      sqlserver:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    working_dir: /workspace/repos
+    stdin_open: true
+    tty: true
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+volumes:
+  sqlserver_data:
+    name: ppt-sqlserver-data
+  redis_data:
+    name: ppt-redis-data
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+networks:
+  ppt-internal:
+    driver: bridge

@@ -1,0 +1,55 @@
+{
+  "name": "PPT CLI",
+  "dockerComposeFile": [
+    "../../docker-compose.yml"
+  ],
+  "service": "ppt-cli",
+  "shutdownAction": "none",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "${localEnv:CONTAINER_USERNAME}",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "eamodio.gitlens",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "ms-azuretools.vscode-azureresourcegroups",
+        "ms-azuretools.vscode-azureappservice",
+        "ms-azuretools.vscode-azurecontainerapps",
+        "ms-azuretools.vscode-containers",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-azuretools.vscode-docker",
+        "foxundermoon.shell-format",
+        "timonwong.shellcheck",
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        "anthropic.claude-code",
+        "editorconfig.editorconfig",
+        "ms-vscode.vscode-json"
+      ],
+      "settings": {
+        "git.repositoryScanMaxDepth": 10,
+        "git.autoRepositoryDetection": true,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.cwd": "/workspace/repos",
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/**": true,
+          "**/bin/**": true,
+          "**/obj/**": true
+        },
+        "search.exclude": {
+          "**/.git": true,
+          "**/node_modules": true,
+          "**/bin": true,
+          "**/obj": true
+        }
+      }
+    }
+  },
+
+  "postCreateCommand": "echo 'PPT CLI container ready. You are in /workspace/repos with access to all repositories.'"
+}

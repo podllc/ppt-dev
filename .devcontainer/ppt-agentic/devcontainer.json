@@ -1,0 +1,33 @@
+{
+  "name": "PPT Agentic",
+  "dockerComposeFile": [
+    "../../docker-compose.yml"
+  ],
+  "service": "ppt-agentic",
+  "shutdownAction": "none",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "${localEnv:CONTAINER_USERNAME}",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "trottero.dotnetwatchattach",
+        "jcamp.dotnet-test-provider-explorer",
+        "urbanoanderson.vscode-coverlet",
+        "ryanluker.vscode-coverage-gutters",
+        "eamodio.gitlens",
+        "fernandoescolar.vscode-solution-explorer",
+        "ms-azuretools.vscode-azureresourcegroups",
+        "ms-azuretools.vscode-azureappservice",
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-containers",
+        "anthropic.claude-code"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}

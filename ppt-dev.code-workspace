@@ -1,0 +1,44 @@
+{
+  "folders": [
+    {
+      "name": "ppt-dev",
+      "path": "."
+    },
+    {
+      "name": "microservice-epa",
+      "path": "../microservice-epa"
+    },
+    {
+      "name": "microservice-case-management",
+      "path": "../microservice-case-management"
+    },
+    {
+      "name": "microservice-sam-gateway",
+      "path": "../microservice-sam-gateway"
+    },
+    {
+      "name": "ppt-agentic",
+      "path": "../ppt-agentic"
+    },
+    {
+      "name": "ppt-common-csharp",
+      "path": "../ppt-common-csharp"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/bin/**": true,
+      "**/obj/**": true
+    },
+    "search.exclude": {
+      "**/.git": true,
+      "**/node_modules": true,
+      "**/bin": true,
+      "**/obj": true
+    }
+  }
+}

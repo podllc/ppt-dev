@@ -1,0 +1,29 @@
+{
+  "name": "PPT Common CSharp",
+  "dockerComposeFile": [
+    "../../docker-compose.yml"
+  ],
+  "service": "ppt-common-csharp",
+  "shutdownAction": "none",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "${localEnv:CONTAINER_USERNAME}",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "jcamp.dotnet-test-provider-explorer",
+        "urbanoanderson.vscode-coverlet",
+        "ryanluker.vscode-coverage-gutters",
+        "eamodio.gitlens",
+        "fernandoescolar.vscode-solution-explorer",
+        "github.vscode-github-actions",
+        "anthropic.claude-code"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}

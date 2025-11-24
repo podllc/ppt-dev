@@ -1,0 +1,34 @@
+{
+  "name": "Microservice ePA",
+  "dockerComposeFile": [
+    "../../docker-compose.yml"
+  ],
+  "service": "microservice-epa",
+  "shutdownAction": "none",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "${localEnv:CONTAINER_USERNAME}",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "trottero.dotnetwatchattach",
+        "jcamp.dotnet-test-provider-explorer",
+        "urbanoanderson.vscode-coverlet",
+        "ryanluker.vscode-coverage-gutters",
+        "eamodio.gitlens",
+        "ms-mssql.mssql",
+        "fernandoescolar.vscode-solution-explorer",
+        "ms-azuretools.vscode-azureresourcegroups",
+        "ms-azuretools.vscode-azureappservice",
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-containers",
+        "anthropic.claude-code"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}

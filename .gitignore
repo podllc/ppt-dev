@@ -1,0 +1,41 @@
+# ============================================================================
+# PrescriberPoint Development Environment - Git Ignore
+# ============================================================================
+
+# Environment variables
+.env
+
+# DevContainer cache directories
+.devcache/
+
+# Cloned repositories (if using repos/ subdirectory pattern)
+repos/
+
+# Docker volumes
+*.data
+
+# VS Code workspace settings
+.vscode/
+*.code-workspace.backup
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+
+# IDE files
+.idea/
+*.iml
+
+# Claude Code cache
+.claude/
