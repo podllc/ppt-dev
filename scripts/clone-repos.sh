@@ -63,10 +63,12 @@ fi
 for repo in "${REPOS[@]}"; do
   REPO_PATH="$REPOS_DIR/$repo"
 
-  if [ -d "$REPO_PATH" ]; then
+  if [ -d "$REPO_PATH/.git" ]; then
     echo -e "${YELLOW}~ Repository $repo already exists, pulling latest...${NC}"
     (cd "$REPO_PATH" && git pull --ff-only 2>/dev/null || echo -e "${YELLOW}  (skipped - local changes or non-ff merge)${NC}")
   else
+    # Remove empty directory if it exists
+    [ -d "$REPO_PATH" ] && rm -rf "$REPO_PATH"
     echo -e "${GREEN}Cloning $repo...${NC}"
     gh repo clone "$GITHUB_ORG/$repo" "$REPO_PATH"
     echo -e "${GREEN}~ Successfully cloned $repo${NC}"
