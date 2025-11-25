@@ -205,6 +205,13 @@ When making changes to this repository, test by:
 - Will prompt for browser login on first use
 - Site: prescriberpoint.atlassian.net
 
+**IMPORTANT - Atlassian Cloud ID Configuration:**
+When using Atlassian MCP tools (getJiraIssue, searchJiraIssuesUsingJql, etc.), you MUST use the correct cloud ID.
+- **DO NOT** use `prescriberpoint.atlassian.net` as the cloudId parameter - it resolves incorrectly
+- **ALWAYS** use the UUID cloud ID: `7c906d30-c1f8-4539-97a4-a5dec982b02e`
+- If you get "Cloud id isn't explicitly granted" errors, call `getAccessibleAtlassianResources` first to verify the correct cloud ID
+- The AA project (AI Agents) is in this Atlassian instance
+
 ### SonarQube MCP
 - Provides access to SonarQube code quality analysis
 - Examine PR issues, security hotspots, and code smells
