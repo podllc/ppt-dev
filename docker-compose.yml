@@ -58,6 +58,26 @@ services:
       timeout: 5s
       retries: 5
 
+  sonarqube-mcp:
+    image: mcp/sonarqube:latest
+    container_name: ppt-sonarqube-mcp
+    environment:
+      - SONARQUBE_TOKEN=${SONAR_TOKEN}
+      - SONARQUBE_URL=${SONARQUBE_URL:-https://sonarqube.rnd.ontherapy.dev}
+      - SONARQUBE_TRANSPORT=http
+      - SONARQUBE_HTTP_PORT=8080
+      - SONARQUBE_HTTP_HOST=0.0.0.0
+    ports:
+      - "8090:8080"
+    networks:
+      - ppt-internal
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
   # ============================================================================
   # DEVELOPMENT CONTAINERS
   # ============================================================================

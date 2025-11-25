@@ -205,11 +205,26 @@ When making changes to this repository, test by:
 - Will prompt for browser login on first use
 - Site: prescriberpoint.atlassian.net
 
+### SonarQube MCP
+- Provides access to SonarQube code quality analysis
+- Examine PR issues, security hotspots, and code smells
+- Uses `SONAR_TOKEN` and `SONARQUBE_URL` from environment
+- Server: https://sonarqube.rnd.ontherapy.dev
+- Runs as a Docker container in docker-compose (`sonarqube-mcp` service)
+- Connects via Streamable HTTP at `http://sonarqube-mcp:8080/mcp`
+
+**Available tools:**
+- Get issues by severity, type, or status
+- Review security hotspots
+- Analyze branches and PRs
+- Check quality gate status
+- View source code with issues highlighted
+
 ## Shared Authentication
 
 ### Claude Code
 - Configuration stored in `.devcache/ppt-dev/.claude.json`
-- MCP servers configured for GitHub and Atlassian access
+- MCP servers configured for GitHub, Atlassian, and SonarQube access
 
 ### GitHub CLI
 - Shared across all containers via `/home/gh-shared/`
