@@ -163,6 +163,11 @@ ppt-dev/
 - **Port**: 6379
 - **Purpose**: Caching and session state
 
+### Azurite (Azure Storage Emulator)
+- **Ports**: 10000 (Blob), 10001 (Queue), 10002 (Table)
+- **Purpose**: Local Azure Storage emulation for blobs, queues, and tables
+- **Account**: devstoreaccount1 (default Azurite well-known account)
+
 ## Development Workflow
 
 This repository follows the standard PrescriberPoint git workflow:
@@ -245,6 +250,7 @@ make logs-cm            # Case Management logs
 make logs-agentic       # Agentic service logs
 make logs-sql           # SQL Server logs
 make logs-redis         # Redis logs
+make logs-azurite       # Azurite storage emulator logs
 
 # Database access
 make db-shell           # SQL Server shell

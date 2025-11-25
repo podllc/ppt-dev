@@ -86,6 +86,9 @@ logs-sql:
 logs-redis:
 	@docker-compose logs -f redis
 
+logs-azurite:
+	@docker-compose logs -f azurite
+
 logs-epa:
 	@docker-compose logs -f microservice-epa
 
