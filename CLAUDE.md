@@ -196,7 +196,8 @@ When making changes to this repository, test by:
 
 ### Atlassian MCP
 - Provides access to Jira issues and Confluence pages
-- Uses `ATLASSIAN_USER_EMAIL` and `ATLASSIAN_API_TOKEN` from environment
+- Uses OAuth via Atlassian's hosted service (https://mcp.atlassian.com/v1/sse)
+- Will prompt for browser login on first use
 - Site: prescriberpoint.atlassian.net
 
 ## Shared Authentication
