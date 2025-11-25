@@ -69,6 +69,10 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN --mount=type=cache,target=/root/.npm \
     npm install -g @anthropic-ai/claude-code
 
+# Install uv (Python package manager) system-wide for MCP servers
+# Must be installed as root to /usr/local/bin since user home is mounted at runtime
+RUN curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local sh
+
 # Switch to user
 USER $USERNAME
 
