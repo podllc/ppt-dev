@@ -73,10 +73,11 @@ RUN --mount=type=cache,target=/root/.npm \
 USER $USERNAME
 
 # Install .NET global tools for the user
-RUN dotnet tool install --global dotnet-ef --version 9.0.0
-RUN dotnet tool install --global NSwag.ConsoleCore
-RUN dotnet tool install --global dotnet-reportgenerator-globaltool
-RUN dotnet tool install --global coverlet.console
+RUN dotnet tool install --global dotnet-ef --version 9.0.0 \
+    && dotnet tool install --global NSwag.ConsoleCore \
+    && dotnet tool install --global dotnet-script \
+    && dotnet tool install --global dotnet-reportgenerator-globaltool \
+    && dotnet tool install --global coverlet.console
 
 # Install Azure CLI extensions for user
 RUN az extension add --name containerapp --yes || true

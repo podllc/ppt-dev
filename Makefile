@@ -1,32 +1,115 @@
-.PHONY: help start stop restart status logs clean build cli
+# ============================================================================
+# PrescriberPoint Development Environment - Makefile
+# ============================================================================
+# Convenient commands for managing the development environment
+# ============================================================================
 
-help: ## Show this help message
-	@echo "PrescriberPoint Development Environment"
+.PHONY: help clone start stop restart logs status cli clean build mcp-setup
+
+# Default target - show help
+help:
+	@echo "PrescriberPoint Development Environment - Make Commands"
 	@echo ""
-	@echo "Available commands:"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
+	@echo "Setup:"
+	@echo "  make clone              Clone all PPT repositories to repos/"
+	@echo "  make mcp-setup          Configure MCP servers (GitHub, Atlassian)"
+	@echo ""
+	@echo "Development:"
+	@echo "  make start              Start multi-container development environment"
+	@echo "  make stop               Stop all containers"
+	@echo "  make restart            Restart all containers"
+	@echo "  make build              Build all Docker images"
+	@echo ""
+	@echo "Monitoring:"
+	@echo "  make logs               View logs from all containers"
+	@echo "  make status             Show status of all containers"
+	@echo "  make cli                Shell into the CLI container"
+	@echo ""
+	@echo "Maintenance:"
+	@echo "  make clean              Stop all containers and remove volumes"
+	@echo ""
+	@echo "Repository Locations (after clone):"
+	@echo "  repos/ppt-agentic"
+	@echo "  repos/microservice-epa"
+	@echo "  repos/microservice-case-management"
+	@echo "  repos/microservice-profile"
+	@echo "  repos/microservice-sam-gateway"
+	@echo "  repos/ppt-common-csharp"
+	@echo ""
 
-start: ## Start all development containers
+# ============================================================================
+# Setup
+# ============================================================================
+
+clone:
+	@./scripts/clone-repos.sh
+
+mcp-setup:
+	@./scripts/setup-shared-auth.sh
+
+# ============================================================================
+# Development
+# ============================================================================
+
+start:
 	@./scripts/start-dev.sh
 
-stop: ## Stop all development containers
+stop:
 	@./scripts/stop-dev.sh
 
-restart: ## Restart all development containers
-	@docker-compose restart
+restart: stop start
 
-status: ## Show status of all containers
-	@docker-compose ps
+build:
+	@echo "Building Docker images..."
+	@DOCKER_BUILDKIT=1 docker-compose build
 
-logs: ## View logs from all containers
+# ============================================================================
+# Monitoring
+# ============================================================================
+
+logs:
 	@docker-compose logs -f
 
-build: ## Build all Docker images
-	@docker-compose build
+status:
+	@docker-compose ps
 
-clean: ## Stop and remove all containers and volumes
-	@docker-compose down -v
-	@echo "All containers and volumes removed"
+cli:
+	@docker exec -it ppt-dev bash
 
-cli: ## Open a shell in the CLI container
-	@docker-compose exec ppt-cli bash
+# ============================================================================
+# Individual Service Logs
+# ============================================================================
+
+logs-sql:
+	@docker-compose logs -f sqlserver
+
+logs-redis:
+	@docker-compose logs -f redis
+
+logs-epa:
+	@docker-compose logs -f microservice-epa
+
+logs-cm:
+	@docker-compose logs -f microservice-case-management
+
+logs-agentic:
+	@docker-compose logs -f ppt-agentic
+
+# ============================================================================
+# Maintenance
+# ============================================================================
+
+clean:
+	@echo "Stopping all containers and removing volumes..."
+	@docker-compose down -v 2>/dev/null || true
+	@echo "Cleanup complete"
+
+# ============================================================================
+# Database Operations
+# ============================================================================
+
+db-shell:
+	@docker exec -it ppt-sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$(shell grep MSSQL_SA_PASSWORD .env | cut -d '=' -f2)" -C
+
+redis-shell:
+	@docker exec -it ppt-redis redis-cli

@@ -1,9 +1,9 @@
 {
-  "name": "PPT CLI",
+  "name": "PPT DEV",
   "dockerComposeFile": [
     "../../docker-compose.yml"
   ],
-  "service": "ppt-cli",
+  "service": "ppt-dev",
   "shutdownAction": "none",
   "workspaceFolder": "/workspace",
   "remoteUser": "${localEnv:CONTAINER_USERNAME}",
@@ -51,5 +51,5 @@
     }
   },
 
-  "postCreateCommand": "echo 'PPT CLI container ready. You are in /workspace/repos with access to all repositories.'"
+  "postCreateCommand": "echo 'PPT DEV container ready. You are in /workspace/repos with access to all repositories.'"
 }

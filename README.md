@@ -202,7 +202,7 @@ The development environment uses **host-mounted cache directories** (`.devcache/
 - `.devcache/microservice-sam-gateway/` - SAM Gateway cache
 - `.devcache/ppt-agentic/` - Agentic service cache
 - `.devcache/ppt-common-csharp/` - Common library cache
-- `.devcache/ppt-cli/` - CLI container cache
+- `.devcache/ppt-dev/` - CLI container cache
 - `.devcache/claude-shared/` - Shared Claude Code auth
 - `.devcache/gh-shared/` - Shared GitHub CLI auth
 
@@ -231,14 +231,14 @@ ppt-dev/
 │   ├── microservice-sam-gateway/
 │   ├── ppt-agentic/
 │   ├── ppt-common-csharp/
-│   └── ppt-cli/
+│   └── ppt-dev/
 ├── .devcache/                        # Container home directories (gitignored)
 │   ├── microservice-epa/
 │   ├── microservice-case-management/
 │   ├── microservice-sam-gateway/
 │   ├── ppt-agentic/
 │   ├── ppt-common-csharp/
-│   ├── ppt-cli/
+│   ├── ppt-dev/
 │   ├── claude-shared/
 │   └── gh-shared/
 ├── scripts/
@@ -371,7 +371,7 @@ code ppt-dev.code-workspace
 
 ## CLI Container
 
-The `ppt-cli` container provides a unified environment for cross-repository work:
+The `ppt-dev` container provides a unified environment for cross-repository work:
 
 **Option 1: Shell access (quick commands)**
 ```bash

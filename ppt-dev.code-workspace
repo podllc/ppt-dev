@@ -5,24 +5,28 @@
       "path": "."
     },
     {
+      "name": "ppt-agentic",
+      "path": "repos/ppt-agentic"
+    },
+    {
       "name": "microservice-epa",
-      "path": "../microservice-epa"
+      "path": "repos/microservice-epa"
     },
     {
       "name": "microservice-case-management",
-      "path": "../microservice-case-management"
+      "path": "repos/microservice-case-management"
+    },
+    {
+      "name": "microservice-profile",
+      "path": "repos/microservice-profile"
     },
     {
       "name": "microservice-sam-gateway",
-      "path": "../microservice-sam-gateway"
-    },
-    {
-      "name": "ppt-agentic",
-      "path": "../ppt-agentic"
+      "path": "repos/microservice-sam-gateway"
     },
     {
       "name": "ppt-common-csharp",
-      "path": "../ppt-common-csharp"
+      "path": "repos/ppt-common-csharp"
     }
   ],
   "settings": {
@@ -32,13 +36,25 @@
       "**/.git/subtree-cache/**": true,
       "**/node_modules/**": true,
       "**/bin/**": true,
-      "**/obj/**": true
+      "**/obj/**": true,
+      "**/.devcache/**": true
     },
     "search.exclude": {
       "**/.git": true,
       "**/node_modules": true,
       "**/bin": true,
-      "**/obj": true
-    }
+      "**/obj": true,
+      "**/.devcache": true
+    },
+    "dotnet.defaultSolution": "disable"
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-dotnettools.csharp",
+      "ms-dotnettools.csdevkit",
+      "ms-azuretools.vscode-docker",
+      "ms-vscode-remote.remote-containers",
+      "anthropics.claude-code"
+    ]
   }
 }

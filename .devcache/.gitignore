@@ -1,0 +1,28 @@
+# ============================================================================
+# DevCache Git Ignore
+# ============================================================================
+# This directory contains cached data for development containers including:
+# - VS Code Server and extensions
+# - .NET tool cache
+# - NuGet package cache
+# - Bash history
+# - NPM global packages
+#
+# These caches can grow large (3-4GB per service) but provide significant
+# speedup by persisting across container rebuilds.
+# ============================================================================
+
+# Ignore everything by default
+*
+
+# But track this gitignore file
+!.gitignore
+
+# Track shared directories for cross-container tool sharing
+!claude-shared/
+claude-shared/*
+!claude-shared/.gitkeep
+
+!gh-shared/
+gh-shared/*
+!gh-shared/.gitkeep

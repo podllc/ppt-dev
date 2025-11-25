@@ -2,40 +2,50 @@
 # PrescriberPoint Development Environment - Git Ignore
 # ============================================================================
 
-# Environment variables
+# Environment configuration (contains secrets)
 .env
 
-# DevContainer cache directories
-.devcache/
+# Cloned repositories (managed independently)
+repos/*
+# But track Claude workspace and instructions if present
+!repos/CLAUDE.md
+!repos/claude-workspace/
 
-# Cloned repositories (if using repos/ subdirectory pattern)
-repos/
+# Docker home directory caches (VS Code extensions, bash history, dotnet tools, etc.)
+# Each service has its own .devcache subdirectory - these can get very large (3-4GB each)
+.devcache/*
+!.devcache/.gitignore
+# Allow shared directories for Claude authentication and GitHub CLI
+!.devcache/claude-shared/
+!.devcache/gh-shared/
 
-# Docker volumes
-*.data
+# VS Code workspace files (developer-specific)
+*.code-workspace
+!ppt-dev.code-workspace
 
-# VS Code workspace settings
-.vscode/
-*.code-workspace.backup
-
-# Operating System Files
+# OS files
 .DS_Store
 Thumbs.db
-*.swp
-*.swo
-*~
+
+# IDE files
+.idea/
+.vscode/settings.json
+.vscode/launch.json
 
 # Logs
 *.log
 logs/
 
 # Temporary files
+*.tmp
+*.swp
+*.swo
+*~
 tmp/
 temp/
 
-# IDE files
-.idea/
-*.iml
+# Docker volumes
+*.data
 
-# Claude Code cache
-.claude/
+# Claude Code local settings
+.claude/settings.local.json

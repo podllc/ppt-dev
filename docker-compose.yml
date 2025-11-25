@@ -17,11 +17,12 @@ services:
       - "1433:1433"
     networks:
       - ppt-internal
-    # healthcheck:
-    #   test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${MSSQL_SA_PASSWORD} -C -Q 'SELECT 1' || exit 1"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${MSSQL_SA_PASSWORD} -C -Q 'SELECT 1' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   redis:
     image: redis:7-alpine
@@ -42,6 +43,8 @@ services:
   # ============================================================================
   # DEVELOPMENT CONTAINERS
   # ============================================================================
+  # Repositories are cloned to ./repos/ via clone-repos.sh
+  # ============================================================================
 
   microservice-epa:
     container_name: ppt-microservice-epa
@@ -53,7 +56,7 @@ services:
       args:
         USERNAME: ${CONTAINER_USERNAME}
     volumes:
-      - ../microservice-epa:/workspace:cached
+      - ./repos/microservice-epa:/workspace:cached
       - ./.devcache/microservice-epa:/home/${CONTAINER_USERNAME}:cached
       - ./.devcache/claude-shared:/home/claude-shared:cached
       - ./.devcache/gh-shared:/home/gh-shared:cached
@@ -68,7 +71,7 @@ services:
       - ppt-internal
     depends_on:
       sqlserver:
-        condition: service_started
+        condition: service_healthy
       redis:
         condition: service_healthy
     working_dir: /workspace
@@ -84,7 +87,7 @@ services:
       args:
         USERNAME: ${CONTAINER_USERNAME}
     volumes:
-      - ../microservice-case-management:/workspace:cached
+      - ./repos/microservice-case-management:/workspace:cached
       - ./.devcache/microservice-case-management:/home/${CONTAINER_USERNAME}:cached
       - ./.devcache/claude-shared:/home/claude-shared:cached
       - ./.devcache/gh-shared:/home/gh-shared:cached
@@ -99,7 +102,38 @@ services:
       - ppt-internal
     depends_on:
       sqlserver:
-        condition: service_started
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    working_dir: /workspace
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  microservice-profile:
+    container_name: ppt-microservice-profile
+    user: ${CONTAINER_USERNAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dotnet
+      args:
+        USERNAME: ${CONTAINER_USERNAME}
+    volumes:
+      - ./repos/microservice-profile:/workspace:cached
+      - ./.devcache/microservice-profile:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/claude-shared:/home/claude-shared:cached
+      - ./.devcache/gh-shared:/home/gh-shared:cached
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=http://0.0.0.0:5000
+    ports:
+      - "5250:5000"
+    networks:
+      - ppt-internal
+    depends_on:
+      sqlserver:
+        condition: service_healthy
       redis:
         condition: service_healthy
     working_dir: /workspace
@@ -115,7 +149,7 @@ services:
       args:
         USERNAME: ${CONTAINER_USERNAME}
     volumes:
-      - ../microservice-sam-gateway:/workspace:cached
+      - ./repos/microservice-sam-gateway:/workspace:cached
       - ./.devcache/microservice-sam-gateway:/home/${CONTAINER_USERNAME}:cached
       - ./.devcache/claude-shared:/home/claude-shared:cached
       - ./.devcache/gh-shared:/home/gh-shared:cached
@@ -144,7 +178,7 @@ services:
       args:
         USERNAME: ${CONTAINER_USERNAME}
     volumes:
-      - ../ppt-agentic:/workspace:cached
+      - ./repos/ppt-agentic:/workspace:cached
       - ./.devcache/ppt-agentic:/home/${CONTAINER_USERNAME}:cached
       - ./.devcache/claude-shared:/home/claude-shared:cached
       - ./.devcache/gh-shared:/home/gh-shared:cached
@@ -158,6 +192,8 @@ services:
     networks:
       - ppt-internal
     depends_on:
+      sqlserver:
+        condition: service_healthy
       redis:
         condition: service_healthy
     working_dir: /workspace
@@ -173,7 +209,7 @@ services:
       args:
         USERNAME: ${CONTAINER_USERNAME}
     volumes:
-      - ../ppt-common-csharp:/workspace:cached
+      - ./repos/ppt-common-csharp:/workspace:cached
       - ./.devcache/ppt-common-csharp:/home/${CONTAINER_USERNAME}:cached
       - ./.devcache/claude-shared:/home/claude-shared:cached
       - ./.devcache/gh-shared:/home/gh-shared:cached
@@ -188,9 +224,9 @@ services:
     working_dir: /workspace
     command: /bin/sh -c "while sleep 1000; do :; done"
 
-  ppt-cli:
-    container_name: ppt-cli
-    hostname: ppt-cli
+  ppt-dev:
+    container_name: ppt-dev
+    hostname: ppt-dev
     user: ${CONTAINER_USERNAME}
     build:
       context: .
@@ -200,7 +236,7 @@ services:
         USERNAME: ${CONTAINER_USERNAME}
     volumes:
       - .:/workspace:cached
-      - ./.devcache/ppt-cli:/home/${CONTAINER_USERNAME}:cached
+      - ./.devcache/ppt-dev:/home/${CONTAINER_USERNAME}:cached
       - ./.devcache/claude-shared:/home/claude-shared:cached
       - ./.devcache/gh-shared:/home/gh-shared:cached
     env_file:
@@ -211,7 +247,7 @@ services:
       - ppt-internal
     depends_on:
       sqlserver:
-        condition: service_started
+        condition: service_healthy
       redis:
         condition: service_healthy
     working_dir: /workspace/repos
