@@ -177,6 +177,16 @@ This repository follows the standard PrescriberPoint git workflow:
 3. Use Jira tickets to track work (accessible via Atlassian MCP)
 4. Create pull requests for review
 
+## Jira Ticket Updates
+
+When updating Jira tickets:
+
+- **Prefer editing the description** over adding comments
+- Update acceptance criteria checkboxes directly in the description (e.g., `[ ]` → `[x]`)
+- Comments can become confusing and contradictory over time
+- Only use comments for discussion, questions, or time-sensitive notes that don't belong in the description
+- Keep the description as the single source of truth for ticket status and requirements
+
 ## Testing Changes
 
 When making changes to this repository, test by:
