@@ -1,0 +1,265 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Solution",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"repos/ppt-agentic/PPT.Agentic.sln"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"dependsOn": [
+				"Clean Solution"
+			]
+		},
+		{
+			"label": "Clean Solution",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"clean",
+				"repos/ppt-agentic/PPT.Agentic.sln"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Restore Solution",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"restore",
+				"repos/ppt-agentic/PPT.Agentic.sln"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Run Gateway API",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"repos/ppt-agentic/src/PPT.Agentic.Gateway.Api/PPT.Agentic.Gateway.Api.csproj"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": true,
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Run Gateway API (Watch)",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"watch",
+				"run",
+				"--project",
+				"repos/ppt-agentic/src/PPT.Agentic.Gateway.Api/PPT.Agentic.Gateway.Api.csproj"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": true,
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Run Tests",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"test",
+				"repos/ppt-agentic/tests/PPT.Agentic.Tests.Unit/PPT.Agentic.Tests.Unit.csproj",
+				"--verbosity",
+				"normal"
+			],
+			"group": "test",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Run Tests with Coverage",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"test",
+				"repos/ppt-agentic/tests/PPT.Agentic.Tests.Unit/PPT.Agentic.Tests.Unit.csproj",
+				"--collect:\"XPlat Code Coverage\"",
+				"--results-directory",
+				"./TestResults",
+				"--verbosity",
+				"normal"
+			],
+			"group": "test",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Build Gateway API",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"repos/ppt-agentic/src/PPT.Agentic.Gateway.Api/PPT.Agentic.Gateway.Api.csproj"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"dependsOn": [
+				"Clean Solution"
+			]
+		},
+		{
+			"label": "Build Tests",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"repos/ppt-agentic/tests/PPT.Agentic.Tests.Unit/PPT.Agentic.Tests.Unit.csproj"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"dependsOn": [
+				"Clean Solution"
+			]
+		},
+		{
+			"label": "Run Integration Console",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"repos/ppt-agentic/tests/PPT.Agentic.Tests.Integration.Console/PPT.Agentic.Tests.Integration.Console.csproj"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"options": {
+				"cwd": "${workspaceFolder}/repos/ppt-agentic/tests/PPT.Agentic.Tests.Integration.Console"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Run Integration Console (Interactive)",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"PPT.Agentic.Tests.Integration.Console.csproj",
+				"--",
+				"interactive"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"options": {
+				"cwd": "${workspaceFolder}/repos/ppt-agentic/tests/PPT.Agentic.Tests.Integration.Console"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Run Integration Console (Single Test)",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"PPT.Agentic.Tests.Integration.Console.csproj",
+				"--",
+				"test",
+				"general_inquiry"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"isBackground": false,
+			"options": {
+				"cwd": "${workspaceFolder}/repos/ppt-agentic/tests/PPT.Agentic.Tests.Integration.Console"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+	]
+}
