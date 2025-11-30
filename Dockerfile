@@ -77,8 +77,9 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local s
 USER $USERNAME
 
 # Install .NET global tools for the user
+# Pin NSwag to 14.2.0 - newer versions (14.6+) target .NET 10 which causes runtime mismatch
 RUN dotnet tool install --global dotnet-ef --version 9.0.0 \
-    && dotnet tool install --global NSwag.ConsoleCore \
+    && dotnet tool install --global NSwag.ConsoleCore --version 14.2.0 \
     && dotnet tool install --global dotnet-script \
     && dotnet tool install --global dotnet-reportgenerator-globaltool \
     && dotnet tool install --global coverlet.console
