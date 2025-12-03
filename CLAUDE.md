@@ -230,12 +230,28 @@ When using Atlassian MCP tools (getJiraIssue, searchJiraIssuesUsingJql, etc.), y
 - Runs as a Docker container in docker-compose (`sonarqube-mcp` service)
 - Connects via Streamable HTTP at `http://sonarqube-mcp:8080/mcp`
 
+**IMPORTANT - Project Key Configuration:**
+When using SonarQube MCP tools, you MUST use the correct project key format:
+- **DO NOT** use short names like `ppt-agentic` - they won't be found
+- **ALWAYS** use the full project key: `PrescriberPoint_ppt-agentic`
+- If unsure of the project key, call `search_my_sonarqube_projects` first to find the correct key
+- For PR analysis, use the `pullRequest` parameter (e.g., `pullRequest: "86"` for PR #86)
+
+**Common Issues and Solutions:**
+- **404 errors**: Usually means wrong project key - use `search_my_sonarqube_projects` to find correct key
+- **Session expired**: The MCP connection is stateless; just retry the request
+- **No issues returned**: Check if using correct `pullRequestId` parameter format (string, not number)
+
+**Severity Levels for Issue Search:**
+Valid values for `severities` parameter: `INFO`, `LOW`, `MEDIUM`, `HIGH`, `BLOCKER`
+(Note: Do NOT use `MAJOR` or `CRITICAL` - use `HIGH` and `BLOCKER` instead)
+
 **Available tools:**
-- Get issues by severity, type, or status
-- Review security hotspots
-- Analyze branches and PRs
-- Check quality gate status
-- View source code with issues highlighted
+- `search_my_sonarqube_projects` - Find project keys (use this first!)
+- `get_project_quality_gate_status` - Check quality gate pass/fail status
+- `search_sonar_issues_in_projects` - Get issues by severity, type, or status
+- `show_rule` - Get details about a specific SonarQube rule
+- `get_component_measures` - Get metrics like coverage, violations, etc.
 
 ## Shared Authentication
 

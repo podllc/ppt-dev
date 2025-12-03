@@ -16,18 +16,18 @@
       "name": "microservice-case-management",
       "path": "repos/microservice-case-management"
     },
-    {
-      "name": "microservice-profile",
-      "path": "repos/microservice-profile"
-    },
-    {
-      "name": "microservice-sam-gateway",
-      "path": "repos/microservice-sam-gateway"
-    },
-    {
-      "name": "ppt-common-csharp",
-      "path": "repos/ppt-common-csharp"
-    }
+    // {
+    //   "name": "microservice-profile",
+    //   "path": "repos/microservice-profile"
+    // },
+    // {
+    //   "name": "microservice-sam-gateway",
+    //   "path": "repos/microservice-sam-gateway"
+    // },
+    // {
+    //   "name": "ppt-common-csharp",
+    //   "path": "repos/ppt-common-csharp"
+    // }
   ],
   "settings": {
     "terminal.integrated.defaultProfile.linux": "bash",
