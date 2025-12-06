@@ -1,0 +1,39 @@
+{
+  "UserConfig": {
+    "Namespaces": [
+      {
+        "Name": "ppt-local",
+        "Topics": [
+          {
+            "Name": "epa_response_received",
+            "Subscriptions": [
+              {
+                "Name": "epa-response-received-subscription"
+              }
+            ]
+          },
+          {
+            "Name": "rtbc_requested",
+            "Subscriptions": [
+              {
+                "Name": "cm-process-rtbc-request"
+              }
+            ]
+          },
+          {
+            "Name": "cm_notifications",
+            "Subscriptions": [
+              {
+                "Name": "cm-notifications-subscription"
+              }
+            ]
+          }
+        ],
+        "Queues": []
+      }
+    ],
+    "Logging": {
+      "Type": "Console"
+    }
+  }
+}

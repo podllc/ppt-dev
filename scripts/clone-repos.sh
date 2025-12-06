@@ -27,6 +27,7 @@ REPOS=(
   "microservice-profile"
   "microservice-sam-gateway"
   "ppt-common-csharp"
+  "job-epa-response"
 )
 
 echo -e "${BLUE}============================================================================${NC}"
