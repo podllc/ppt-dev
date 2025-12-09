@@ -239,8 +239,18 @@ When using SonarQube MCP tools, you MUST use the correct project key format:
 
 **Common Issues and Solutions:**
 - **404 errors**: Usually means wrong project key - use `search_my_sonarqube_projects` to find correct key
-- **Session expired**: The MCP connection is stateless; just retry the request
+- **Session expired**: The MCP connection is stateless; just retry the request. If MCP keeps failing, use the direct API via curl (see below)
 - **No issues returned**: Check if using correct `pullRequestId` parameter format (string, not number)
+
+**Direct API Access (when MCP is unavailable):**
+If the SonarQube MCP session keeps expiring, use curl with basic auth (token as username, empty password):
+```bash
+# Quality gate status
+curl -s -u "${SONAR_TOKEN}:" "https://sonarqube.rnd.ontherapy.dev/api/qualitygates/project_status?projectKey=PrescriberPoint_ppt-agentic&pullRequest=106"
+
+# Search issues by severity (MAJOR issues for PR 106)
+curl -s -u "${SONAR_TOKEN}:" "https://sonarqube.rnd.ontherapy.dev/api/issues/search?componentKeys=PrescriberPoint_ppt-agentic&pullRequest=106&severities=MAJOR&statuses=OPEN&ps=20"
+```
 
 **Severity Levels for Issue Search:**
 Valid values for `severities` parameter: `INFO`, `LOW`, `MEDIUM`, `HIGH`, `BLOCKER`
