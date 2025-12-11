@@ -16,20 +16,25 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     gnupg \
     lsb-release \
     ca-certificates \
+    procps \
+    iproute2 \
+    net-tools \
+    lsof \
+    iputils-ping \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get update && apt-get install -y \
-        nodejs \
-        make \
-        git \
-        vim \
-        nano \
-        htop \
-        tree \
-        jq \
-        openssh-client \
-        wget \
-        unzip \
-        zip
+    nodejs \
+    make \
+    git \
+    vim \
+    nano \
+    htop \
+    tree \
+    jq \
+    openssh-client \
+    wget \
+    unzip \
+    zip
 
 # Install Microsoft SQL Server tools
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \

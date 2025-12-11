@@ -16,6 +16,10 @@
       "name": "microservice-case-management",
       "path": "repos/microservice-case-management"
     },
+    {
+      "name": "ppt-pa",
+      "path": "repos/ppt-pa"
+    }
     // {
     //   "name": "microservice-profile",
     //   "path": "repos/microservice-profile"
@@ -54,7 +58,8 @@
       "ms-dotnettools.csdevkit",
       "ms-azuretools.vscode-docker",
       "ms-vscode-remote.remote-containers",
-      "anthropics.claude-code"
+      "anthropics.claude-code",
+      "ms-vscode.js-debug-nightly"
     ]
   }
 }
