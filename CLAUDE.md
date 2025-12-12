@@ -47,14 +47,37 @@ When making changes to this repository:
 ## Shared Configuration
 
 The `.env` file is the single source of truth for:
-- GitHub authentication (GITHUB_TOKEN)
-- Atlassian/Jira API keys (ATLASSIAN_API_TOKEN)
 - Database credentials (SQL Server)
 - Azure configuration (App Configuration, Storage, Service Bus)
 - Auth0 settings
 - All other shared configuration
 
 This ensures consistency between local development and Azure production deployments.
+
+## GitHub Authentication
+
+**Use session-based authentication via `gh auth login`** (not PATs).
+
+Fine-grained PATs do not support GitHub Packages (npm registry). The OAuth session from `gh auth login` includes `read:packages` scope automatically.
+
+```bash
+# Authenticate once (opens browser)
+gh auth login
+
+# Token is used automatically by:
+# - GitHub MCP server (configured in .claude.json)
+# - npm packages: configure .npmrc with $(gh auth token)
+# - NuGet packages: export NUGET_AUTH_TOKEN=$(gh auth token)
+```
+
+For npm private packages, ensure your `.npmrc` uses the session token:
+
+```ini
+@prescriberpoint:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=${NPM_TOKEN}
+```
+
+Then run: `NPM_TOKEN=$(gh auth token) npm install`
 
 ## Development Modes
 

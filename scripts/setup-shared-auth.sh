@@ -3,7 +3,7 @@
 # Setup MCP Server Authentication
 # ============================================================================
 # Configures Claude Code MCP servers for GitHub and Atlassian/Jira access.
-# GitHub requires a token in .env; Atlassian uses OAuth via hosted service.
+# GitHub uses session-based auth via `gh auth login`; Atlassian uses OAuth.
 # ============================================================================
 
 set -e
@@ -20,16 +20,21 @@ echo -e "${BLUE}Setting up MCP Servers for Claude Code${NC}"
 echo -e "${BLUE}============================================================================${NC}"
 echo ""
 
-# Check for GitHub token
-if [ -z "$GITHUB_TOKEN" ]; then
-    echo -e "${YELLOW}WARNING: GITHUB_TOKEN not set in environment${NC}"
+# Check for GitHub CLI authentication
+if ! gh auth status &>/dev/null; then
+    echo -e "${YELLOW}WARNING: Not logged in to GitHub CLI${NC}"
     echo ""
-    echo -e "${YELLOW}Add to your .env file:${NC}"
+    echo -e "${YELLOW}Run the following command to authenticate:${NC}"
     echo ""
-    echo "  GITHUB_TOKEN=ghp_your_token_here"
+    echo "  gh auth login"
     echo ""
-    echo "Get token from: https://github.com/settings/tokens"
-    echo "Required scopes: read:packages, repo"
+    echo "This will open a browser for OAuth authentication."
+    echo "The session token includes read:packages scope for GitHub Packages."
+    echo ""
+else
+    echo -e "${GREEN}✓ GitHub CLI authenticated${NC}"
+    # Show current auth status
+    gh auth status 2>&1 | head -5
     echo ""
 fi
 
@@ -39,8 +44,15 @@ echo -e "${GREEN}MCP server configuration is in .devcache/ppt-dev/.claude.json${
 echo -e "${BLUE}============================================================================${NC}"
 echo ""
 echo -e "${YELLOW}Notes:${NC}"
-echo "  - GitHub MCP: Uses GITHUB_TOKEN from environment"
+echo "  - GitHub MCP: Uses \$(gh auth token) for session-based auth"
 echo "  - Atlassian MCP: Uses OAuth (will prompt for browser login on first use)"
+echo ""
+echo -e "${YELLOW}For npm packages:${NC}"
+echo "  The GitHub session token includes read:packages scope."
+echo "  Configure .npmrc to use: //npm.pkg.github.com/:_authToken=\$(gh auth token)"
+echo ""
+echo -e "${YELLOW}For NuGet packages:${NC}"
+echo "  export NUGET_AUTH_TOKEN=\$(gh auth token)"
 echo ""
 echo -e "${YELLOW}Verify with:${NC}  claude mcp list"
 echo ""
