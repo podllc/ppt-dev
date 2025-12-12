@@ -77,7 +77,15 @@ For npm private packages, ensure your `.npmrc` uses the session token:
 //npm.pkg.github.com/:_authToken=${NPM_TOKEN}
 ```
 
-Then run: `NPM_TOKEN=$(gh auth token) npm install`
+Then run: `NPM_TOKEN=$(gh auth token) npm install --legacy-peer-deps`
+
+**Note**: Use `--legacy-peer-deps` for npm installs due to peer dependency conflicts with @headlessui/react versions.
+
+**Important**: The default `gh auth login` does not include `read:packages` scope. If you get 403 errors, refresh with:
+
+```bash
+gh auth refresh --hostname github.com --scopes read:packages
+```
 
 ## Development Modes
 
