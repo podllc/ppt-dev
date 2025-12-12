@@ -212,11 +212,19 @@ This repository follows the standard PrescriberPoint git workflow:
 
 When updating Jira tickets:
 
-- **Prefer editing the description** over adding comments
+- **ALWAYS edit the description** - NEVER add comments for status updates or completed work
 - Update acceptance criteria checkboxes directly in the description (e.g., `[ ]` → `[x]`)
 - Comments can become confusing and contradictory over time
 - Only use comments for discussion, questions, or time-sensitive notes that don't belong in the description
 - Keep the description as the single source of truth for ticket status and requirements
+
+**Using editJiraIssue:**
+
+The Atlassian MCP `editJiraIssue` tool accepts markdown for the description field. Simply pass the markdown string directly:
+
+```json
+{"description": "## Heading\n\nParagraph with **bold** and `code`.\n\n- [x] Completed item\n- [ ] Pending item"}
+```
 
 ## Testing Changes
 
