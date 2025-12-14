@@ -208,6 +208,25 @@ This repository follows the standard PrescriberPoint git workflow:
 3. Use Jira tickets to track work (accessible via Atlassian MCP)
 4. Create pull requests for review
 
+### Branch Naming Convention
+
+**IMPORTANT**: All branches must follow this naming convention:
+
+- **Prefix**: Always use `feature/` prefix
+- **Name**: Use only hyphens (`-`) to separate words - **NO slashes** after the prefix
+- **Format**: `feature/<descriptive-name-with-hyphens>`
+
+**Examples:**
+
+- ✅ `feature/denial-config`
+- ✅ `feature/add-user-authentication`
+- ✅ `feature/fix-api-timeout-issue`
+- ❌ `feature/add/framer/motion` (slashes in name break preview deployments)
+- ❌ `denial-config` (missing `feature/` prefix)
+- ❌ `feature/add_underscore_name` (use hyphens, not underscores)
+
+**Why this matters**: Preview deployments use the branch name in the URL. Slashes after `feature/` break the deployment pipeline and URL generation.
+
 ## Jira Ticket Updates
 
 When updating Jira tickets:
