@@ -17,12 +17,6 @@ services:
       - "1433:1433"
     networks:
       - ppt-internal
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${MSSQL_SA_PASSWORD} -C -Q 'SELECT 1' || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
 
   redis:
     image: redis:7-alpine
@@ -107,11 +101,6 @@ services:
       - "5100:5000"
     networks:
       - ppt-internal
-    depends_on:
-      sqlserver:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
     working_dir: /workspace
     command: /bin/sh -c "while sleep 1000; do :; done"
 
@@ -138,11 +127,6 @@ services:
       - "5200:5000"
     networks:
       - ppt-internal
-    depends_on:
-      sqlserver:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
     working_dir: /workspace
     command: /bin/sh -c "while sleep 1000; do :; done"
 
@@ -169,11 +153,6 @@ services:
       - "5250:5000"
     networks:
       - ppt-internal
-    depends_on:
-      sqlserver:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
     working_dir: /workspace
     command: /bin/sh -c "while sleep 1000; do :; done"
 
@@ -201,8 +180,7 @@ services:
     networks:
       - ppt-internal
     depends_on:
-      redis:
-        condition: service_healthy
+      - redis
     working_dir: /workspace
     command: /bin/sh -c "while sleep 1000; do :; done"
 
@@ -229,11 +207,6 @@ services:
       - "5400:5000"
     networks:
       - ppt-internal
-    depends_on:
-      sqlserver:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
     working_dir: /workspace
     command: /bin/sh -c "while sleep 1000; do :; done"
 
@@ -283,11 +256,6 @@ services:
       - "5600:5000"
     networks:
       - ppt-internal
-    depends_on:
-      sqlserver:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
     working_dir: /workspace/repos
     stdin_open: true
     tty: true
