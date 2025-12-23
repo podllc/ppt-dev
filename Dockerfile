@@ -34,7 +34,28 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     openssh-client \
     wget \
     unzip \
-    zip
+    zip \
+    # Cypress dependencies for headless browser testing
+    libgtk2.0-0 \
+    libgtk-3-0 \
+    libgbm-dev \
+    libnotify-dev \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    libxtst6 \
+    xauth \
+    xvfb \
+    fonts-liberation \
+    libappindicator3-1 \
+    libatk-bridge2.0-0 \
+    libatspi2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2
 
 # Install Microsoft SQL Server tools
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
