@@ -26,7 +26,8 @@ REPOS=(
   "microservice-case-management"
   "microservice-profile"
   "microservice-sam-gateway"
-  "ppt-common-csharp"
+  "ppt-common-csharp",
+  "ppt-pa"
 )
 
 echo -e "${BLUE}============================================================================${NC}"

@@ -3,20 +3,20 @@ services:
   # SHARED INFRASTRUCTURE
   # ============================================================================
 
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: ppt-sqlserver
-    platform: linux/amd64
-    environment:
-      ACCEPT_EULA: ${ACCEPT_EULA:-Y}
-      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
-      MSSQL_PID: ${MSSQL_PID:-Developer}
-    volumes:
-      - sqlserver_data:/var/opt/mssql
-    ports:
-      - "1433:1433"
-    networks:
-      - ppt-internal
+  # sqlserver:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   container_name: ppt-sqlserver
+  #   platform: linux/amd64
+  #   environment:
+  #     ACCEPT_EULA: ${ACCEPT_EULA:-Y}
+  #     MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+  #     MSSQL_PID: ${MSSQL_PID:-Developer}
+  #   volumes:
+  #     - sqlserver_data:/var/opt/mssql
+  #   ports:
+  #     - "1433:1433"
+  #   networks:
+  #     - ppt-internal
 
   redis:
     image: redis:7-alpine
